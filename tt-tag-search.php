@@ -5,7 +5,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 Plugin Name: Tag Search
 Plugin URI: http://www.themestown.com
 Description: This plugin finds tags in post and autolinks them to display search results for all posts found to contain the tagged word or phrase.
-Version: 1.0
+Version: 1.1
 Author: A Lewis
 Author URI: http://www.themestown.com
 */
@@ -41,7 +41,7 @@ $wpcontentdir=WP_CONTENT_DIR;
 $tttagsearch_plugin_path = WP_CONTENT_DIR.'/plugins/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
 $tttagsearch_plugin_url = WP_CONTENT_URL.'/plugins/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
 
-$tttagsearchdb_version = "1.0";
+$tttagsearchdb_version = "1.1";
 
 define('TTTAGSEARCH', 'Tag Search');
 
@@ -181,7 +181,7 @@ function ttcredit()
 	$tttagsearch_options=get_tttagsearch_options();
 	$givepluginauthorcredit=$tttagsearch_options[$tttagsearchconfigoptionsprefix.'_credit_plugin_author'];
 
-	$ttcredit="<a style=\"font-size:9px;text-decoration:none;\" href=\"http://www.themestown.com\">Tag Search by Themes Town</a>";
+	$ttcredit="<a style=\"font-size:9px;text-decoration:none;\" href=\"http://themestown.com/groups/tag-seach-plugin/\">Tag Search</a> via <a href="http://www.themestown.com"> Themes Town</a>";
 	$myttcredit="<div style=\"float:right;padding:5px;\">$ttcredit</div>";
 	
 	if(isset($givepluginauthorcredit) && !empty($givepluginauthorcredit) && ($givepluginauthorcredit == "no")){}else{echo $myttcredit;}
