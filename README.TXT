@@ -55,5 +55,6 @@ If you are having problems please visit http://www.themestown.com for help.
 
 
 == Changelog ==
+Version 1.2 - Fixes error unexpected T_STRING on line 184
 
 
