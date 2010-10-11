@@ -1,6 +1,6 @@
 === Tag Search ===
 Contributors: A. Lewis
-Tags: search,tags,links
+Tags: search,tags,links,autolinks,SEO
 Requires at least: 2.7
 Tested up to: 3.0.1
 Stable tag: trunk
@@ -55,6 +55,10 @@ If you are having problems please visit http://www.themestown.com for help.
 
 
 == Changelog ==
+
+Version 1.5 - Added an on off switch so you can turn off Tag Search from admin if desired.
+		
+		_ Now links only full words. Means, if tag to link is support and Tag Search finds the word 'supportive' Tag Search will now skip the word supportive instead of linking the 'support' part of the word 'supportive'
 
 Version 1.4 - Changes alignment of footer credit to center instead of right
 

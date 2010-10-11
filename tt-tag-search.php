@@ -5,7 +5,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 Plugin Name: Tag Search
 Plugin URI: http://www.themestown.com
 Description: This plugin finds tags in post and autolinks them to display search results for all posts found to contain the tagged word or phrase.
-Version: 1.4
+Version: 1.5
 Author: A Lewis
 Author URI: http://www.themestown.com
 */
@@ -41,7 +41,7 @@ $wpcontentdir=WP_CONTENT_DIR;
 $tttagsearch_plugin_path = WP_CONTENT_DIR.'/plugins/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
 $tttagsearch_plugin_url = WP_CONTENT_URL.'/plugins/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
 
-$tttagsearchdb_version = "1.4";
+$tttagsearchdb_version = "1.5";
 
 define('TTTAGSEARCH', 'Tag Search');
 
@@ -57,6 +57,7 @@ define('TTTAGSEARCH', 'Tag Search');
 
 $tttagsearchconfigoptionsprefix="tttagsearch";
 $yesnooptions=array("yes","no");
+$onoffoptions=array("on","off");
 $maxlinksops=range(1,100);
 
 $def_tttag_search_config_options = array (
@@ -75,6 +76,12 @@ array("name" => "Should tags be autolinked on static pages?",
 "std" => "1",
 "type" => "select",
 "options" => $yesnooptions),
+
+array("name" => "Tag Search On Off Switch",
+"id" => $tttagsearchconfigoptionsprefix."_onoffstate",
+"std" => "1",
+"type" => "select",
+"options" => $onoffoptions),
 
 array("name" => "Give credit to plugin author",
 "id" => $tttagsearchconfigoptionsprefix."_credit_plugin_author",
@@ -123,8 +130,13 @@ function tt_linkthetag($content)
 		$autolinkstaticpages=$tttagsearch_options[$tttagsearchconfigoptionsprefix.'_autolinkstaticpages'];
 	}
 
+	if(isset($tttagsearch_options[$tttagsearchconfigoptionsprefix.'_onoffstate']) && !empty($tttagsearch_options[$tttagsearchconfigoptionsprefix.'_onoffstate']))
+	{
+		$ttagsearchonoffstate=$tttagsearch_options[$tttagsearchconfigoptionsprefix.'_onoffstate'];
+	}
 	
 	if(!isset($link_how_many) || empty($link_how_many)){$link_how_many=1;}
+	if(!isset($ttagsearchonoffstate) || empty($ttagsearchonoffstate)){$ttagsearchonoffstate="on";}
 	
 	$siteurl=get_option('siteurl');
 
@@ -132,44 +144,50 @@ function tt_linkthetag($content)
 	$tttags=get_tags('hide_empty=false');
 	//print_r($tttags);
 	
-	if($tttags)
+	if(isset($ttagsearchonoffstate) && !empty($ttagsearchonoffstate) && ($ttagsearchonoffstate == 'on'))
 	{
-		foreach ($tttags as $tttag)
-		{
-			$thetags[]=$tttag->name;
-		}
-	}
 	
-	if($thetags)
-	{
-		foreach ($thetags as $thetag)
+		if($tttags)
 		{
-			if( isset($autolinkstaticpages) && !empty($autolinkstaticpages) && ($autolinkstaticpages == "yes"))
-			{		
-				if(strstr($content," $thetag"))
-				{
-					$thetagfs=str_replace(" ","+",$thetag);
-					$linkedtag="<a href=\"$siteurl?s=$thetagfs\">$thetag</a>";
-					$content = preg_replace("/$thetag(?!([^<]+)?>)/i","$linkedtag",$content,$link_how_many);
-
-
-				}		
-			}
-			else
+			foreach ($tttags as $tttag)
 			{
-				if(!is_page() && (strstr($content," $thetag")))
+				$thetags[]=$tttag->name;
+			}
+		}
+
+		if($thetags)
+		{
+			foreach ($thetags as $thetag)
+			{
+				if( isset($autolinkstaticpages) && !empty($autolinkstaticpages) && ($autolinkstaticpages == "yes"))
+				{		
+					if(strstr($content," $thetag"))
+					{
+						$thetagfs=str_replace(" ","+",$thetag);
+						$linkedtag="<a href=\"$siteurl?s=$thetagfs\">$thetag</a>";
+						$content = preg_replace('/\b'.$thetag.'\b(?![^<]+>)/i', $linkedtag, $content,$link_how_many);
+						
+
+
+					}		
+				}
+				else
 				{
-					$thetagfs=str_replace(" ","+",$thetag);
-					$linkedtag="<a href=\"$siteurl?s=$thetagfs\">$thetag</a>";
-					$content = preg_replace("/$thetag(?!([^<]+)?>)/i","$linkedtag",$content,$link_how_many);
+					if(!is_page() && (strstr($content," $thetag")))
+					{
+						$thetagfs=str_replace(" ","+",$thetag);
+						$linkedtag="<a href=\"$siteurl?s=$thetagfs\">$thetag</a>";
+						$content = preg_replace('/\b'.$thetag.'\b(?![^<]+>)/i', $linkedtag, $content,$link_how_many);
+
+					}
 				}
 			}
 		}
+	
+		
 	}
-	
-	return $content;
 
-	
+	return $content;
 }
 
 
@@ -470,3 +488,5 @@ if ($value['type'] == "text") { ?>
   </form>
   <?php
 }
+
+?>
