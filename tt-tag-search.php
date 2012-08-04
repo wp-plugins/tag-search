@@ -3,17 +3,17 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 Plugin Name: Tag Search
-Plugin URI: http://www.themestown.com
-Description: This plugin finds tags in post and autolinks them to display search results for all posts found to contain the tagged word or phrase.
-Version: 1.5
+Plugin URI: http://www.wppluginsdev.com
+Description: This plugin CX2Q3U78PY finds tags in post and autolinks them to display search results for all posts found to contain the tagged word or phrase.
+Version: 1.6
 Author: A Lewis
-Author URI: http://www.themestown.com
+Author URI: http://www.wppluginsdev.com
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*  Copyright 2010  A. Lewis  (email : themestown@gmail.com)
+/*  Copyright 2010  A. Lewis  (email : wppluginsdev@live.com)
 
     This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as 
+    it under the terms of the GNU General Public License, version 2, as
     published by the Free Software Foundation.
 
     This program is distributed in the hope that it will be useful,
@@ -41,7 +41,7 @@ $wpcontentdir=WP_CONTENT_DIR;
 $tttagsearch_plugin_path = WP_CONTENT_DIR.'/plugins/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
 $tttagsearch_plugin_url = WP_CONTENT_URL.'/plugins/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
 
-$tttagsearchdb_version = "1.5";
+$tttagsearchdb_version = "1.6";
 
 define('TTTAGSEARCH', 'Tag Search');
 
@@ -51,7 +51,7 @@ define('TTTAGSEARCH', 'Tag Search');
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	add_action('init', 'tttagsearchinstall');
-	add_action('admin_menu', 'tttag_search_launch');	
+	add_action('admin_menu', 'tttag_search_launch');
 	add_filter("the_content", "tt_linkthetag");
 	add_filter("wp_footer", "ttcredit");
 
@@ -98,7 +98,7 @@ function tttagsearchinstall()
 {
 
 	global $wpdb,$tttagsearchdb_version;
-	
+
 	$installed_ver = get_option( "tttagsearchdb_version" );
 
 
@@ -124,7 +124,7 @@ function tt_linkthetag($content)
 	{
 		$link_how_many=$tttagsearch_options[$tttagsearchconfigoptionsprefix.'_link_tag_how_many_times'];
 	}
-	
+
 	if(isset($tttagsearch_options[$tttagsearchconfigoptionsprefix.'_autolinkstaticpages']) && !empty($tttagsearch_options[$tttagsearchconfigoptionsprefix.'_autolinkstaticpages']))
 	{
 		$autolinkstaticpages=$tttagsearch_options[$tttagsearchconfigoptionsprefix.'_autolinkstaticpages'];
@@ -134,19 +134,19 @@ function tt_linkthetag($content)
 	{
 		$ttagsearchonoffstate=$tttagsearch_options[$tttagsearchconfigoptionsprefix.'_onoffstate'];
 	}
-	
+
 	if(!isset($link_how_many) || empty($link_how_many)){$link_how_many=1;}
 	if(!isset($ttagsearchonoffstate) || empty($ttagsearchonoffstate)){$ttagsearchonoffstate="on";}
-	
+
 	$siteurl=get_option('siteurl');
 
-	
+
 	$tttags=get_tags('hide_empty=false');
 	//print_r($tttags);
-	
+
 	if(isset($ttagsearchonoffstate) && !empty($ttagsearchonoffstate) && ($ttagsearchonoffstate == 'on'))
 	{
-	
+
 		if($tttags)
 		{
 			foreach ($tttags as $tttag)
@@ -160,16 +160,16 @@ function tt_linkthetag($content)
 			foreach ($thetags as $thetag)
 			{
 				if( isset($autolinkstaticpages) && !empty($autolinkstaticpages) && ($autolinkstaticpages == "yes"))
-				{		
+				{
 					if(strstr($content," $thetag"))
 					{
 						$thetagfs=str_replace(" ","+",$thetag);
 						$linkedtag="<a href=\"$siteurl?s=$thetagfs\">$thetag</a>";
 						$content = preg_replace('/\b'.$thetag.'\b(?![^<]+>)/i', $linkedtag, $content,$link_how_many);
-						
 
 
-					}		
+
+					}
 				}
 				else
 				{
@@ -183,8 +183,8 @@ function tt_linkthetag($content)
 				}
 			}
 		}
-	
-		
+
+
 	}
 
 	return $content;
@@ -201,9 +201,9 @@ function ttcredit()
 	$givepluginauthorcredit=$tttagsearch_options[$tttagsearchconfigoptionsprefix.'_credit_plugin_author'];
 	}
 
-	$ttcredit="<a style=\"font-size:9px;text-decoration:none;\" href=\"http://themestown.com/groups/tag-seach-plugin/\">Tag Search</a> <font style=\"font-size:9px;text-decoration:none;\">via</font> <a style=\"font-size:9px;text-decoration:none;\" href=\"http://www.themestown.com\"> Themes Town</a>";
+	$ttcredit="<a style=\"font-size:9px;text-decoration:none;\" href=\"http://wppluginsdev.com/\">Tag Search</a> <font style=\"font-size:9px;text-decoration:none;\">via</font> <a style=\"font-size:9px;text-decoration:none;\" href=\"http://www.wppluginsdev.com\"> wppluginsdeev.com</a>";
 	$myttcredit="<div style=\"text-align:center;display:block;padding:3px;\">$ttcredit</div>";
-	
+
 	if(isset($givepluginauthorcredit) && !empty($givepluginauthorcredit) && ($givepluginauthorcredit == "no")){}else{echo $myttcredit;}
 }
 
@@ -225,7 +225,7 @@ function get_tttagsearch_options()
 	global $tttagsearchconfigoptionsprefix;
 
 	$pstandtttag_search_config_options=get_option($tttagsearchconfigoptionsprefix.'_settings_config');
-	
+
 	if(isset($pstandtttag_search_config_options) && !empty($pstandtttag_search_config_options))
 	{
 		foreach ($pstandtttag_search_config_options as $pstandoption)
@@ -237,7 +237,7 @@ function get_tttagsearch_options()
 
 		}
 	}
-	
+
 	return $mytttag_search_config_options;
 }
 
@@ -246,15 +246,15 @@ function tttag_search_config_check_for_tttag_search_config_options()
 	global $tttagsearchconfigoptionsprefix,$def_tttag_search_config_options,$poststatusoptions,$yesnooptions,$categoryorderoptions,$categorysortoptions;
 	$tttagsearchconfigoptions=$tttagsearchconfigoptionsprefix.'_settings_config';
 	$mysavedthemetttag_search_config_options=get_option($tttagsearchconfigoptions);
-		
+
 		$tttag_search_config_options = $mysavedthemetttag_search_config_options;
-		
-		if (!isset($tttag_search_config_options) || empty($tttag_search_config_options) || !is_array($tttag_search_config_options)) 
-		{			
+
+		if (!isset($tttag_search_config_options) || empty($tttag_search_config_options) || !is_array($tttag_search_config_options))
+		{
 			$tttag_search_config_options = $def_tttag_search_config_options;
 
 			foreach ($tttag_search_config_options as $optionvalue)
-			{			
+			{
 				if(!isset($optionvalue['id']) || empty($optionvalue['id']))
 				{
 					$optionvalue['id']='';
@@ -267,17 +267,17 @@ function tttag_search_config_check_for_tttag_search_config_options()
 				{
 					$optionvalue['std']='';
 				}
-				
+
 					$setmytttag_search_config_options[]=array("name" => $optionvalue['name'],
 					"id" => $optionvalue['id'],
 					"std" => $optionvalue['std'],
 					"type" => $optionvalue['type'],
-					"options" => $optionvalue['options']);						
+					"options" => $optionvalue['options']);
 
 			}
-			
+
 			update_option($tttagsearchconfigoptions,$setmytttag_search_config_options);
-		}	
+		}
 }
 
 function tttag_search_config_reconcile_options()
@@ -287,11 +287,11 @@ function tttag_search_config_reconcile_options()
 	$tttag_search_config_options=get_tttagsearch_options();
 
 			$setmytttag_search_config_options=array();
-			
+
 
 				foreach ($def_tttag_search_config_options as $optionvalue)
 				{
-				
+
 					if(!isset($optionvalue['id']) || empty($optionvalue['id']))
 					{
 						$optionvalue['id']='';
@@ -308,8 +308,8 @@ function tttag_search_config_reconcile_options()
 					{
 						$optionvalue['std']='';
 					}
-								
-					
+
+
 					if(isset($tttag_search_config_options[$optionvalue['id']]) && !empty($tttag_search_config_options[$optionvalue['id']]))
 					{
 						$savedoptionvalue=$tttag_search_config_options[$optionvalue['id']];
@@ -326,11 +326,11 @@ function tttag_search_config_reconcile_options()
 					"id" => $optionvalue['id'],
 					"std" => $savedoptionvalue,
 					"type" => $optionvalue['type'],
-					"options" => $optionvalue['options']);					
+					"options" => $optionvalue['options']);
 				}
-			
-				update_option($tttagsearchconfigoptions,$setmytttag_search_config_options);			
-		
+
+				update_option($tttagsearchconfigoptions,$setmytttag_search_config_options);
+
 }
 
 function tttag_search_config_admin() {
@@ -341,20 +341,20 @@ tttag_search_config_reconcile_options();
 //Begin the saving procedures
 	$tttagsearchconfigoptions=$tttagsearchconfigoptionsprefix.'_settings_config';
 	$mysavedthemetttag_search_config_options=get_option($tttagsearchconfigoptions);
-		
+
 		$tttag_search_config_options = $mysavedthemetttag_search_config_options;
-		
-		if (!isset($tttag_search_config_options) || empty($tttag_search_config_options) || !is_array($tttag_search_config_options)) 
-		{			
+
+		if (!isset($tttag_search_config_options) || empty($tttag_search_config_options) || !is_array($tttag_search_config_options))
+		{
 			$tttag_search_config_options = $def_tttag_search_config_options;
 
 			if($tttag_search_config_options)
 			{
 				foreach ($tttag_search_config_options as $optionvalue)
-				{			
+				{
 					if(isset($optionvalue['id']) && !empty($optionvalue['id']))
 					{
-						$savedoptionvalue=get_option($optionvalue['id']);	
+						$savedoptionvalue=get_option($optionvalue['id']);
 						if(!isset($savedoptionvalue) || empty ($savedoptionvalue))
 						{
 							$savedoptionvalue=$optionvalue['std'];
@@ -364,56 +364,56 @@ tttag_search_config_reconcile_options();
 						"id" => $optionvalue['id'],
 						"std" => $savedoptionvalue,
 						"type" => $optionvalue['type'],
-						"options" => $optionvalue['options']);						
+						"options" => $optionvalue['options']);
 
 						delete_option($optionvalue['id']);
 					}
 				}
 			}
-			
+
 			update_option($tttagsearchconfigoptions,$setmytttag_search_config_options);
-		}	
+		}
 
 		if( isset($_REQUEST['action']) && ( 'updatetttag_search_config_options' == $_REQUEST['action'] ))
 		{
 			$myoptionvalue='';
 
 			foreach ($tttag_search_config_options as $optionvalue)
-			{	
-			
+			{
+
 				if(isset($optionvalue['id']) && !empty($optionvalue['id']))
 				{
 					if( isset( $_REQUEST[ $optionvalue['id'] ] ) )
-					{				
+					{
 						$myoptionvalue = $_REQUEST[ $optionvalue['id'] ];
 					}
 				}
-				
+
 				if(!isset($optionvalue['options']) || empty($optionvalue['options']))
 				{
 					$optionvalue['options']='';
 				}
-				
+
 				if(!isset($optionvalue['id']) || empty($optionvalue['id']))
 				{
 					$optionvalue['id']='';
-				}				
-				
+				}
+
 				if(!isset($optionvalue['std']) || empty($optionvalue['std'] ))
 				{
 					$optionvalue['std']='';
 				}
-				
-				
+
+
 				$mytttag_search_config_options[]=array("name" => $optionvalue['name'],
 				"id" => $optionvalue['id'],
 				"std" => $myoptionvalue,
 				"type" => $optionvalue['type'],
-				"options" => $optionvalue['options']);				
+				"options" => $optionvalue['options']);
 
 			}
 				update_option($tttagsearchconfigoptions,$mytttag_search_config_options);
-				$tttag_search_config_optionsupdated=true;	
+				$tttag_search_config_optionsupdated=true;
 
 		}
 		else if( isset($_REQUEST['action']) && ( 'reset' == $_REQUEST['action'] ))
@@ -427,8 +427,8 @@ if ( isset($_REQUEST['reset']) && !empty( $_REQUEST['reset'] )) echo '<div id="m
 
 $tttag_search_config_options=get_tttagsearch_options();
 $tttag_search_config_saved_options = get_option($tttagsearchconfigoptionsprefix.'_settings_config');
-		
-		if (!isset($tttag_search_config_saved_options) || empty($tttag_search_config_saved_options) || !is_array($tttag_search_config_saved_options)) 
+
+		if (!isset($tttag_search_config_saved_options) || empty($tttag_search_config_saved_options) || !is_array($tttag_search_config_saved_options))
 		{
 			$tttag_search_config_options = $def_tttag_search_config_options;
 		}
@@ -440,8 +440,8 @@ $tttag_search_config_saved_options = get_option($tttagsearchconfigoptionsprefix.
   <div class="wrap">
   <h4><?php _e('Tag Search Settings','ttagse');?></h4>
   <form method="post">
-    <?php foreach ($tttag_search_config_options as $value) { 
-    
+    <?php foreach ($tttag_search_config_options as $value) {
+
 if ($value['type'] == "text") { ?>
     <div style="float: left; width: 880px; background-color:#E4F2FD; border-left: 1px solid #C2D6E6; border-right: 1px solid #C2D6E6;  border-bottom: 1px solid #C2D6E6; padding: 10px;">
       <div style="width: 200px; float: left;"><?php echo $value['name']; ?></div>
@@ -470,8 +470,8 @@ if ($value['type'] == "text") { ?>
     </div>
     <?php } elseif ($value['type'] == "titles") { ?>
     <div style="float: left; width: 870px; padding: 15px; background-color:#2583AD; border: 1px solid #2583AD; color: #fff; font-size: 16px; font-weight: bold; margin-top: 25px;"> <?php echo $value['name']; ?> </div>
-    <?php 
-} 
+    <?php
+}
 }
 ?>
     <div style="clear: both;"></div>

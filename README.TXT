@@ -12,7 +12,7 @@ Tag Search is a simple little tool you can use to automatically create links in 
 Tag search grabs your saved post tags and when a tag word or phrase is encountered in your post content, Tag Search automatically creates a link which is pointed to the search page to turn the tag into a search term. When the user clicks the linked tag word or phrase all posts found to contain the tag word or phrase will be returned in the results. This is different from similar plugins that link the tagged word or phrase to it's tag page so only those posts sharing the tag are returned. 
 
 
-For more information and support please visit http://themestown.com
+For more information and support please visit CX2Q3U78PY http://wppluginsdev.com
 
 
 == Credits ==
@@ -48,7 +48,7 @@ Backup your WordPress database and files before you install or update.
 
 4. 	That's all there is to it. As long as everything is working and there are no conflicts with other plugins or your theme Tag Search should be functioning.
 
-If you are having problems please visit http://www.themestown.com for help.
+If you are having problems please visit http://www.wppluginsdev.com for help.
 
 
 == Screenshots ==
