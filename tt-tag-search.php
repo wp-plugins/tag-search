@@ -4,7 +4,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 /*
 Plugin Name: Tag Search
 Plugin URI: http://www.wppluginsdev.com
-Description: This plugin CX2Q3U78PY finds tags in post and autolinks them to display search results for all posts found to contain the tagged word or phrase.
+Description: This plugin finds tags in post and autolinks them to display search results for all posts found to contain the tagged word or phrase.
 Version: 1.6
 Author: A Lewis
 Author URI: http://www.wppluginsdev.com
