@@ -3,14 +3,14 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 Plugin Name: Tag Search
-Plugin URI: http://www.wppluginsdev.com
+Plugin URI: http://wppluginsdev.com
 Description: This plugin finds tags in post and autolinks them to display search results for all posts found to contain the tagged word or phrase.
-Version: 1.6
-Author: A Lewis
-Author URI: http://www.wppluginsdev.com
+Version: 1.7
+Author: wppluginsdev
+Author URI: http://wppluginsdev.com
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*  Copyright 2010  A. Lewis  (email : wppluginsdev@live.com)
+/*  Copyright 2010  wppluginsdev  (email : wpadmin@wppluginsdev.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -41,7 +41,7 @@ $wpcontentdir=WP_CONTENT_DIR;
 $tttagsearch_plugin_path = WP_CONTENT_DIR.'/plugins/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
 $tttagsearch_plugin_url = WP_CONTENT_URL.'/plugins/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
 
-$tttagsearchdb_version = "1.6";
+$tttagsearchdb_version = "1.7";
 
 define('TTTAGSEARCH', 'Tag Search');
 
@@ -53,7 +53,7 @@ define('TTTAGSEARCH', 'Tag Search');
 	add_action('init', 'tttagsearchinstall');
 	add_action('admin_menu', 'tttag_search_launch');
 	add_filter("the_content", "tt_linkthetag");
-	add_filter("wp_footer", "ttcredit");
+	add_filter( 'plugin_action_links', 'tttag_plugin_actions', 10, 2);
 
 $tttagsearchconfigoptionsprefix="tttagsearch";
 $yesnooptions=array("yes","no");
@@ -81,13 +81,7 @@ array("name" => "Tag Search On Off Switch",
 "id" => $tttagsearchconfigoptionsprefix."_onoffstate",
 "std" => "1",
 "type" => "select",
-"options" => $onoffoptions),
-
-array("name" => "Give credit to plugin author",
-"id" => $tttagsearchconfigoptionsprefix."_credit_plugin_author",
-"std" => "yes",
-"type" => "select",
-"options" => $yesnooptions)
+"options" => $onoffoptions)
 );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -102,17 +96,24 @@ function tttagsearchinstall()
 	$installed_ver = get_option( "tttagsearchdb_version" );
 
 
-    	if(!isset($installed_ver) || empty($installed_ver)){add_option("tttagsearchdb_version", $tttagsearchdb_version);}
-    	else{update_option("tttagsearchdb_version", $tttagsearchdb_version);}
+    	if(!isset($installed_ver) || empty($installed_ver)) {
+			add_option("tttagsearchdb_version", $tttagsearchdb_version);
+		} else {
+			update_option("tttagsearchdb_version", $tttagsearchdb_version);
+		}
 }
 
 
+function tttag_plugin_actions($links)
+{
+	$settings_link = "<a href=\"options-general.php?page=tt-tag-search.php\">Settings</a>";
+	array_unshift($links, $settings_link);
+	return $links;
+}
+
 function tttag_search_launch()
 {
-	global $tttag_search_plugin_path;
-	add_menu_page(TTTAGSEARCH, 'Tag Search', 'activate_plugins', 'tt-tag-search.php', 'tttagsearch_home_screen', '');
-	add_submenu_page('tt-tag-search.php', 'Manage Options ', 'Manage Options', 'activate_plugins', 'tttag_search_c1', 'tttag_search_config_admin');
-	add_submenu_page('tt-tag-search.php', 'Uninstall Tag Search', 'Uninstall', 'activate_plugins', 'tttag_search_m1', 'tttag_search_uninstall');
+	add_options_page( 'Tag Search Settings', 'Tag Search', 'activate_plugins', 'tt-tag-search.php', 'tttag_search_config_admin' );	
 }
 
 function tt_linkthetag($content)
@@ -120,19 +121,19 @@ function tt_linkthetag($content)
 
 	global $post,$tttagsearchconfigoptionsprefix;
 	$tttagsearch_options=get_tttagsearch_options();
-	if(isset($tttagsearch_options[$tttagsearchconfigoptionsprefix.'_link_tag_how_many_times']) && !empty($tttagsearch_options[$tttagsearchconfigoptionsprefix.'_link_tag_how_many_times']))
+	if(isset($tttagsearch_options['name'][$tttagsearchconfigoptionsprefix.'_link_tag_how_many_times']) && !empty($tttagsearch_options['name'][$tttagsearchconfigoptionsprefix.'_link_tag_how_many_times']))
 	{
-		$link_how_many=$tttagsearch_options[$tttagsearchconfigoptionsprefix.'_link_tag_how_many_times'];
+		$link_how_many=$tttagsearch_options['name'][$tttagsearchconfigoptionsprefix.'_link_tag_how_many_times'];
 	}
 
-	if(isset($tttagsearch_options[$tttagsearchconfigoptionsprefix.'_autolinkstaticpages']) && !empty($tttagsearch_options[$tttagsearchconfigoptionsprefix.'_autolinkstaticpages']))
+	if(isset($tttagsearch_options['name'][$tttagsearchconfigoptionsprefix.'_autolinkstaticpages']) && !empty($tttagsearch_options['name'][$tttagsearchconfigoptionsprefix.'_autolinkstaticpages']))
 	{
-		$autolinkstaticpages=$tttagsearch_options[$tttagsearchconfigoptionsprefix.'_autolinkstaticpages'];
+		$autolinkstaticpages=$tttagsearch_options['name'][$tttagsearchconfigoptionsprefix.'_autolinkstaticpages'];
 	}
 
-	if(isset($tttagsearch_options[$tttagsearchconfigoptionsprefix.'_onoffstate']) && !empty($tttagsearch_options[$tttagsearchconfigoptionsprefix.'_onoffstate']))
+	if(isset($tttagsearch_options['name'][$tttagsearchconfigoptionsprefix.'_onoffstate']) && !empty($tttagsearch_options['name'][$tttagsearchconfigoptionsprefix.'_onoffstate']))
 	{
-		$ttagsearchonoffstate=$tttagsearch_options[$tttagsearchconfigoptionsprefix.'_onoffstate'];
+		$ttagsearchonoffstate=$tttagsearch_options['name'][$tttagsearchconfigoptionsprefix.'_onoffstate'];
 	}
 
 	if(!isset($link_how_many) || empty($link_how_many)){$link_how_many=1;}
@@ -142,8 +143,7 @@ function tt_linkthetag($content)
 
 
 	$tttags=get_tags('hide_empty=false');
-	//print_r($tttags);
-
+	
 	if(isset($ttagsearchonoffstate) && !empty($ttagsearchonoffstate) && ($ttagsearchonoffstate == 'on'))
 	{
 
@@ -190,22 +190,6 @@ function tt_linkthetag($content)
 	return $content;
 }
 
-
-
-function ttcredit()
-{
-
-	global $tttagsearchconfigoptionsprefix;
-	$tttagsearch_options=get_tttagsearch_options();
-	if(isset($tttagsearch_options[$tttagsearchconfigoptionsprefix.'_credit_plugin_author']) && !empty($tttagsearch_options[$tttagsearchconfigoptionsprefix.'_credit_plugin_author'])){
-	$givepluginauthorcredit=$tttagsearch_options[$tttagsearchconfigoptionsprefix.'_credit_plugin_author'];
-	}
-
-	$ttcredit="<a style=\"font-size:9px;text-decoration:none;\" href=\"http://wppluginsdev.com/\">Tag Search</a> <font style=\"font-size:9px;text-decoration:none;\">via</font> <a style=\"font-size:9px;text-decoration:none;\" href=\"http://www.wppluginsdev.com\"> wppluginsdeev.com</a>";
-	$myttcredit="<div style=\"text-align:center;display:block;padding:3px;\">$ttcredit</div>";
-
-	if(isset($givepluginauthorcredit) && !empty($givepluginauthorcredit) && ($givepluginauthorcredit == "no")){}else{echo $myttcredit;}
-}
 
 function tttagsearch_home_screen()
 {
@@ -438,7 +422,8 @@ $tttag_search_config_saved_options = get_option($tttagsearchconfigoptionsprefix.
 		}
 		?>
   <div class="wrap">
-  <h4><?php _e('Tag Search Settings','ttagse');?></h4>
+  <h2><?php _e('Tag Search Settings','ttagse');?></h2>
+  <a href="http://wordpress.org/extend/plugins/tag-search/">Tag Search</a> by <a href="http://wppluginsdev.com">wppluginsdeev</a>
   <form method="post">
     <?php foreach ($tttag_search_config_options as $value) {
 

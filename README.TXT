@@ -1,8 +1,8 @@
 === Tag Search ===
-Contributors: A. Lewis
+Contributors: wppluginsdev
 Tags: search,tags,links,autolinks,SEO
 Requires at least: 2.7
-Tested up to: 3.0.1
+Tested up to: 3.5
 Stable tag: trunk
 
 Tag Search is a simple little tool you can use to automatically create links in your posts using your tags. 
@@ -17,7 +17,7 @@ For more information and support please visit http://wppluginsdev.com
 
 == Credits ==
 
-Copyright 2010 A. Lewis 
+Copyright 2010 wppluginsdev
 
 
 This program is free software; you can redistribute it and/or modify
@@ -48,7 +48,7 @@ Backup your WordPress database and files before you install or update.
 
 4. 	That's all there is to it. As long as everything is working and there are no conflicts with other plugins or your theme Tag Search should be functioning.
 
-If you are having problems please visit http://www.wppluginsdev.com for help.
+If you are having problems please visit http://wppluginsdev.com for help.
 
 
 == Screenshots ==
@@ -56,14 +56,18 @@ If you are having problems please visit http://www.wppluginsdev.com for help.
 
 == Changelog ==
 
+Version 1.7 - "Give credit to plugin author" functionality has been removed (this means: no more site wide links).
+			- Settings link now available from the plugins' list.  Also, the settings has been moved from its own
+			menu to a submenu of the main Wordpress settings.
+
+Version 1.6 - Unfortunately, unknown due to a change in developer.
+
 Version 1.5 - Added an on off switch so you can turn off Tag Search from admin if desired.
-		
-		_ Now links only full words. Means, if tag to link is support and Tag Search finds the word 'supportive' Tag Search will now skip the word supportive instead of linking the 'support' part of the word 'supportive'
+			- Now links only full words. Means, if tag to link is support and Tag Search finds the word 'supportive' Tag Search will
+			now skip the word supportive instead of linking the 'support' part of the word 'supportive'
 
 Version 1.4 - Changes alignment of footer credit to center instead of right
 
 Version 1.3 - Fixes undefined index on line 182
 
 Version 1.2 - Fixes error unexpected T_STRING on line 184
-
-
