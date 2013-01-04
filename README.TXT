@@ -1,9 +1,11 @@
 === Tag Search ===
 Contributors: wppluginsdev
-Tags: search,tags,links,autolinks,SEO
+Tags: search, tags, links, autolinks, SEO
 Requires at least: 2.7
 Tested up to: 3.5
 Stable tag: trunk
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Tag Search is a simple little tool you can use to automatically create links in your posts using your tags. 
 
@@ -71,3 +73,7 @@ Version 1.4 - Changes alignment of footer credit to center instead of right
 Version 1.3 - Fixes undefined index on line 182
 
 Version 1.2 - Fixes error unexpected T_STRING on line 184
+
+== Upgrade Notice ==
+
+Upgrade of the plugin has been tested as much as possible, but if you encounter any problems, or anything isn't working after upgrade, then leave at a comment @ http://wppluginsdev.com/tag-search/version-1-7-released/ or make a request at the support page on Wordpress.org (http://wordpress.org/support/plugin/tag-search).
