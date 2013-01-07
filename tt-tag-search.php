@@ -5,7 +5,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 Plugin Name: Tag Search
 Plugin URI: http://wppluginsdev.com
 Description: This plugin finds tags in post and autolinks them to display search results for all posts found to contain the tagged word or phrase.
-Version: 1.7
+Version: 1.8
 Author: wppluginsdev
 Author URI: http://wppluginsdev.com
 */
@@ -41,7 +41,7 @@ $wpcontentdir=WP_CONTENT_DIR;
 $tttagsearch_plugin_path = WP_CONTENT_DIR.'/plugins/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
 $tttagsearch_plugin_url = WP_CONTENT_URL.'/plugins/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
 
-$tttagsearchdb_version = "1.7";
+$tttagsearchdb_version = "1.8";
 
 define('TTTAGSEARCH', 'Tag Search');
 
@@ -53,8 +53,7 @@ define('TTTAGSEARCH', 'Tag Search');
 	add_action('init', 'tttagsearchinstall');
 	add_action('admin_menu', 'tttag_search_launch');
 	add_filter("the_content", "tt_linkthetag");
-	add_filter( 'plugin_action_links', 'tttag_plugin_actions', 10, 2);
-
+	
 $tttagsearchconfigoptionsprefix="tttagsearch";
 $yesnooptions=array("yes","no");
 $onoffoptions=array("on","off");
@@ -103,13 +102,6 @@ function tttagsearchinstall()
 		}
 }
 
-
-function tttag_plugin_actions($links)
-{
-	$settings_link = "<a href=\"options-general.php?page=tt-tag-search.php\">Settings</a>";
-	array_unshift($links, $settings_link);
-	return $links;
-}
 
 function tttag_search_launch()
 {
